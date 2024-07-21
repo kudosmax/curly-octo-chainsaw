@@ -1,45 +1,46 @@
-import { useState } from "react";
+import * as React from "react";
 
-export default function Todo() {
-  const [todo, setTodo] = useState({
-    id: 1,
-    label: "Learn React",
-    completed: false,
-  });
-
-  const [editing, setEditing] = useState(false);
+export default function Todo({ todo, handleUpdateTodo, handleDeleteTodo }) {
+  const [editing, setEditing] = React.useState(false);
 
   const handleCheckboxClick = () =>
-    setTodo({
+    handleUpdateTodo({
       ...todo,
       completed: !todo.completed,
     });
+
   const handleEditClick = () => setEditing(!editing);
-  const handleUpdateLabel = (event) =>
-    setTodo({
+
+  const handleEditTodo = (e) =>
+    handleUpdateTodo({
       ...todo,
-      label: event.target.value,
+      label: e.target.value,
     });
 
+  const handleDeleteClick = () => handleDeleteTodo(todo.id);
+
   return (
-    <div>
-      <label htmlFor="checkbox">
+    <li>
+      <label htmlFor={todo.id}>
         <div>
           <input
             type="checkbox"
-            id="checkbox"
+            id={todo.id}
             checked={todo.completed}
             onChange={handleCheckboxClick}
           />
           <span />
         </div>
         {editing === true ? (
-          <input type="text" value={todo.label} onChange={handleUpdateLabel} />
+          <input type="text" value={todo.label} onChange={handleEditTodo} />
         ) : (
           <span>{todo.label}</span>
         )}
       </label>
-      <button onClick={handleEditClick}>{editing ? "Save" : "Edit"}</button>
-    </div>
+      <div>
+        <button onClick={handleEditClick}>{editing ? "Save" : "Edit"}</button>
+        {!editing && <button onClick={handleDeleteClick}>Delete</button>}
+      </div>
+    </li>
   );
 }
