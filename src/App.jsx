@@ -1,9 +1,10 @@
-import TodoList from "./TodoList";
+import MultiStepForm from './Challenges/MultiStepForm';
+import './style.css';
 
 export default function App() {
   return (
     <div>
-      <TodoList />
+      <MultiStepForm />
     </div>
   );
 }
